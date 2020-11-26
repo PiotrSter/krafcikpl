@@ -25,7 +25,7 @@ class Color(models.Model):
 
 
 class Capacity(models.Model):
-    capacity = models.IntegerField(max_length=5)
+    capacity = models.IntegerField()
 
 class Beer(models.Model):
     name = models.CharField(max_length=45)
@@ -43,7 +43,3 @@ class Order(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     shop = models.OneToOneField(Shop, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-
-
-
-
