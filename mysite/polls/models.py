@@ -25,7 +25,7 @@ class Color(models.Model):
 
 
 class Capacity(models.Model):
-    capacity = models.IntegerField(max_length=5)
+    capacity = models.IntegerField()
 
 class Beer(models.Model):
     name = models.CharField(max_length=45)
