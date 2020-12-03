@@ -1,7 +1,9 @@
-from django.urls import path
-
-from . import views
+from django.urls import path, include
+from django.conf.urls import url
+from .views import UserList, UserDetail
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    path('', UserList.as_view()),
+    path('<int:pk>/', UserDetail.as_view()),
 ]

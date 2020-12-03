@@ -5,7 +5,7 @@ class User(models.Model):
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=32)
     address = models.CharField(max_length=45)
-    phone_number = models.IntegerField(max_length=9)
+    phone_number = models.IntegerField()
 
 class Supplier(models.Model):
     name = models.CharField(max_length=45)
