@@ -127,7 +127,7 @@ class UserSerializer(serializers.ModelSerializer):
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
-        fields = ['name', 'surname', 'vechcile']
+        fields = ['name', 'surname', 'vechicle']
 
 class BrewerySerializer(serializers.ModelSerializer):
     class Meta:
@@ -152,7 +152,7 @@ class CapacitySerializer(serializers.ModelSerializer):
 class BeerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Beer
-        fields = ['name', 'brewery', 'type', 'color', 'capcity']
+        fields = ['name', 'brewery', 'type', 'color', 'capacity']
 
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
