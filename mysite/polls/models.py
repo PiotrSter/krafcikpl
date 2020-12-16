@@ -1,16 +1,19 @@
 from django.db import models
 
+
 class User(models.Model):
     login = models.CharField(max_length=16)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=32)
     address = models.CharField(max_length=45)
-    phone_number = models.IntegerField(max_length=9)
+    phone_number = models.IntegerField()
+
 
 class Supplier(models.Model):
     name = models.CharField(max_length=45)
     surname = models.CharField(max_length=45)
     vechicle = models.CharField(max_length=45)
+
 
 class Brewery(models.Model):
     brewery_name = models.CharField(max_length=45)
@@ -27,6 +30,7 @@ class Color(models.Model):
 class Capacity(models.Model):
     capacity = models.IntegerField()
 
+
 class Beer(models.Model):
     name = models.CharField(max_length=45)
     brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE)
@@ -34,10 +38,12 @@ class Beer(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     capacity = models.ForeignKey(Capacity, on_delete=models.CASCADE)
 
+
 class Shop(models.Model):
     name = models.CharField(max_length=45)
     beer = models.ManyToManyField(Beer)
     price = models.FloatField(max_length=5)
+
 
 class Order(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

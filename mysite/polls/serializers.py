@@ -1,47 +1,48 @@
 from rest_framework import serializers
-from mysite.polls.models import User, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
+from .models import User, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['login', 'email', 'password', 'address', 'phone_number']
 
-class Supplier(serializers.ModelSerializer):
+class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
-        fields = ['name', 'surname', 'vechcile']
+        fields = ['name', 'surname', 'vechicle']
 
-class Brewery(serializers.ModelSerializer):
+class BrewerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Brewery
         fields = ['brewery_name']
 
-class Type(serializers.ModelSerializer):
+class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Type
         fields = ['type_of_beer']
 
-class Color(serializers.ModelSerializer):
+class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = ['color']
 
-class Capacity(serializers.ModelSerializer):
+class CapacitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Capacity
         fields = ['capacity']
 
-class Beer(serializers.ModelSerializer):
+class BeerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Beer
-        fields = ['name', 'brewery', 'type', 'color', 'capcity']
+        fields = ['name', 'brewery', 'type', 'color', 'capacity']
 
-class Shop(serializers.ModelSerializer):
+class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = ['name', 'beer', 'price']
 
-class Order(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['user', 'shop', 'supplier']
