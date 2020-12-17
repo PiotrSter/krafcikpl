@@ -1,165 +1,58 @@
 from rest_framework import serializers
 from .models import User, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
 
-"""class UserSerializer(serializers.Serializer):
-    login = serializers.CharField(max_length=16)
-    email = serializers.CharField(max_length=255)
-    password = serializers.CharField(max_length=32)
-    address = serializers.CharField(max_length=45)
-    phone_number = serializers.IntegerField(max_length=9)
-
-    def create(self, validated_data):
-        return User.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.login = validated_data.get('login', instance.login)
-        instance.email = validated_data.get('email', instance.email)
-        instance.password = validated_data.get('password', instance.password)
-        instance.address = validated_data.get('address', instance.address)
-        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
-        return instance
-
-class SupplierSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=45)
-    surname = serializers.CharField(max_length=45)
-    vechicle = serializers.CharField(max_length=45)
-
-    def create(self, validated_data):
-        return Supplier.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.surname = validated_data.get('surname', instance.surname)
-        instance.vechicle = validated_data.get('vechicle', instance.vechicle)
-        return instance
-
-class Brewery(serializers.Serializer):
-    brewery_name = serializers.CharField(max_length=45)
-
-    def create(self, validated_data):
-        return Brewery.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.brewery_name = validated_data.get('brewery_name', instance.brewery_name)
-        return instance
-
-class Type(serializers.Serializer):
-    type_of_beer = serializers.CharField(max_length=45)
-
-    def create(self, validated_data):
-        return Type.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.type_of_beer = validated_data.get('type_of_beer', instance.type_of_beer)
-        return instance
-
-class Color(serializers.Serializer):
-    color = serializers.CharField(max_length=45)
-
-    def create(self, validated_data):
-        return Color.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.color = validated_data.get('color', instance.color)
-        return instance
-
-class Capacity(serializers.Serializer):
-    capacity = serializers.IntegerField()
-
-    def create(self, validated_data):
-        return Capacity.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.capacity = validated_data.get('capacity', instance.capacity)
-        return instance
-
-class Beer(serializers.Serializer):
-    name = serializers.CharField(max_length=45)
-    brewery = serializers.ForeignKey(Brewery, on_delete=models.CASCADE)
-    type = serializers.ForeignKey(Type, on_delete=models.CASCADE)
-    color = serializers.ForeignKey(Color, on_delete=models.CASCADE)
-    capacity = serializers.ForeignKey(Capacity, on_delete=models.CASCADE)
-
-    def create(self, validated_data):
-        return Beer.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.brewery = validated_data.get('brewery', instance.brewery)
-        instance.type = validated_data.get('type', instance.type)
-        instance.color = validated_data.get('color', instance.color)
-        instance.capacity = validated_data.get('capacity', instance.capacity)
-        return instance
-
-class Shop(serializers.Serializer):
-    name = serializers.CharField(max_length=45)
-    beer = serializers.ManyToManyField(Beer)
-    price = serializers.FloatField(max_length=5)
-
-    def create(self, validated_data):
-        return Shop.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.beer = validated_data.get('beer', instance.beer)
-        instance.price = validated_data.get('price', instance.price)
-        return instance
-
-class Order(serializers.Serializer):
-    user = serializers.OneToOneField(User, on_delete=models.CASCADE)
-    shop = serializers.OneToOneField(Shop, on_delete=models.CASCADE)
-    supplier = serializers.ForeignKey(Supplier, on_delete=models.CASCADE)
-
-    def create(self, validated_data):
-        return Order.object.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.user = validated_data.get('user', instance.user)
-        instance.shop = validated_data.get('beer', instance.shop)
-        instance.supplier = validated_data.get('supplier', instance.supplier)
-        return instance """
-
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['login', 'email', 'password', 'address', 'phone_number']
 
-class SupplierSerializer(serializers.ModelSerializer):
+class SupplierSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Supplier
         fields = ['name', 'surname', 'vechicle']
 
-class BrewerySerializer(serializers.ModelSerializer):
+class BrewerySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Brewery
         fields = ['brewery_name']
 
-class TypeSerializer(serializers.ModelSerializer):
+class TypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Type
         fields = ['type_of_beer']
 
-class ColorSerializer(serializers.ModelSerializer):
+class ColorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Color
         fields = ['color']
 
-class CapacitySerializer(serializers.ModelSerializer):
+class CapacitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Capacity
         fields = ['capacity']
 
-class BeerSerializer(serializers.ModelSerializer):
+class BeerSerializer(serializers.HyperlinkedModelSerializer):
+    brewery = serializers.SlugRelatedField(queryset=Brewery.objects.all(), slug_field='brewery_name')
+    type = serializers.SlugRelatedField(queryset=Type.objects.all(), slug_field='type_of_beer')
+    color = serializers.SlugRelatedField(queryset=Color.objects.all(), slug_field='color')
+    capacity = serializers.SlugRelatedField(queryset=Capacity.objects.all(), slug_field='capacity')
+    #brewery = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='brewery-detail')
+    #type = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='type-detail')
+    #color = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='color-detail')
+    #capacity = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='capacity-detail')
+
     class Meta:
         model = Beer
         fields = ['name', 'brewery', 'type', 'color', 'capacity']
 
-class ShopSerializer(serializers.ModelSerializer):
+class ShopSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Shop
         fields = ['name', 'beer', 'price']
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.HyperlinkedModelSerializer):
+    supplier = serializers.SlugRelatedField(queryset=Supplier.objects.all(), slug_field='name')
+
     class Meta:
         model = Order
         fields = ['user', 'shop', 'supplier']

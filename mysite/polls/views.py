@@ -69,7 +69,7 @@ class ColorDetail(generics.RetrieveUpdateDestroyAPIView):
 class CapacityList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Capacity.objects.all()
-    serializer_class = ColorSerializer
+    serializer_class = CapacitySerializer
     name = 'capacity-list'
 
 class CapacityDetail(generics.RetrieveUpdateDestroyAPIView):
