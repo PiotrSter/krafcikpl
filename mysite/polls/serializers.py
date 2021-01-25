@@ -45,7 +45,14 @@ class BeerSerializer(serializers.HyperlinkedModelSerializer):
         model = Beer
         fields = ['name', 'brewery', 'type', 'color', 'capacity']
 
+class ShopBeerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Beer
+        fields = ['name']
+
 class ShopSerializer(serializers.HyperlinkedModelSerializer):
+    beer = ShopBeerSerializer(many=True, read_only=True)
+
     class Meta:
         model = Shop
         fields = ['name', 'beer', 'price']
@@ -56,3 +63,4 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Order
         fields = ['user', 'shop', 'supplier']
+
