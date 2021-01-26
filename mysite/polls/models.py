@@ -94,7 +94,7 @@ class Shop(models.Model):
 
 class Order(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    shop = models.OneToOneField(Shop, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
 

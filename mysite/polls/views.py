@@ -4,13 +4,17 @@ from .serializers import UserSerializer, SupplierSerializer, BrewerySerializer, 
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, DjangoModelPermissions
+from django_filters import AllValuesFilter, NumberFilter, FilterSet
 
 class UserList(generics.ListCreateAPIView):
     permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
     name = 'user-list'
+    filter_fields = ['login', 'email', 'address']
+    search_fields = ['login', 'email', 'address']
+    ordering_fields = ['login', 'email', 'address']
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
@@ -19,58 +23,75 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'user-detail'
 
 class SupplierList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     name = 'supplier-list'
+    filter_fields = ['name', 'surname']
+    search_fields = ['name', 'surname']
+    ordering_fields = ['name', 'surname']
 
 class SupplierDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     name = 'supplier-detail'
 
 class BreweryList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Brewery.objects.all()
     serializer_class = BrewerySerializer
     name = 'brewery-list'
+    filter_fields = ['brewery_name']
+    search_fields = ['brewery_name']
+    ordering_fields = ['brewery_name']
+
 
 class BreweryDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Brewery.objects.all()
     serializer_class = BrewerySerializer
     name = 'brewery-detail'
 
 class TypeList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
     name = 'type-list'
+    filter_fields = ['type_of_beer']
+    search_fields = ['type_of_beer']
+    ordering_fields = ['type_of_beer']
 
 class TypeDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
     name = 'type-detail'
 
 class ColorList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
     name = 'color-list'
+    filter_fields = ['color']
+    search_fields = ['color']
+    ordering_fields = ['color']
 
 class ColorDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
     name = 'color-detail'
 
 class CapacityList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Capacity.objects.all()
     serializer_class = CapacitySerializer
     name = 'capacity-list'
+    filter_fields = ['capacity']
+    search_fields = ['capacity']
+    ordering_fields = ['capacity']
+
 
 class CapacityDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
@@ -79,37 +100,53 @@ class CapacityDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'capacity-detail'
 
 class BeerList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Beer.objects.all()
     serializer_class = BeerSerializer
     name = 'beer-list'
+    filter_fields = ['name', 'brewery', 'type', 'color', 'capacity']
+    search_fields = ['name', 'brewery', 'type', 'color', 'capacity']
+    ordering_fields = ['name', 'brewery', 'type', 'color', 'capacity']
 
 class BeerDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Beer.objects.all()
     serializer_class = BeerSerializer
     name = 'beer-detail'
 
+class ShopFilter(FilterSet):
+    min_price = NumberFilter(field_name='price', lookup_expr='gte')
+    max_price = NumberFilter(field_name='price', lookup_expr='lte')
+    shop_name = AllValuesFilter(field_name='name')
+
+    class Meta:
+        moder = Shop
+        fields = ['min_price', 'max_pirce', 'shop_name']
+
 class ShopList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
+    filter_class = ShopFilter
     name = 'shop-list'
 
 class ShopDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
     name = 'shop-detail'
 
 class OrderList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     name = 'order-list'
+    filter_fields = ['user']
+    search_fields = ['user']
+    ordering_fields = ['user']
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     name = 'order-detail'
