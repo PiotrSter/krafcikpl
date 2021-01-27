@@ -1,5 +1,5 @@
-from .models import User, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
-from .serializers import UserSerializer, SupplierSerializer, BrewerySerializer, TypeSerializer, \
+from .models import Client, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
+from .serializers import ClientSerializer, SupplierSerializer, BrewerySerializer, TypeSerializer, \
     ColorSerializer, CapacitySerializer, BeerSerializer, ShopSerializer, OrderSerializer
 from rest_framework import generics
 from rest_framework.response import Response
@@ -7,20 +7,20 @@ from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, DjangoModelPermissions
 from django_filters import AllValuesFilter, NumberFilter, FilterSet
 
-class UserList(generics.ListCreateAPIView):
+class ClientList(generics.ListCreateAPIView):
     permission_classes = [IsAdminUser]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    name = 'user-list'
-    filter_fields = ['login', 'email', 'address']
-    search_fields = ['login', 'email', 'address']
-    ordering_fields = ['login', 'email', 'address']
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    name = 'client-list'
+    filter_fields = ['name', 'surname', 'address', 'phone_number']
+    search_fields = ['name', 'surname', 'address', 'phone_number']
+    ordering_fields = ['name', 'surname', 'address', 'phone_number']
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+class ClientDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    name = 'user-detail'
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    name = 'client-detail'
 
 class SupplierList(generics.ListCreateAPIView):
     permission_classes = [DjangoModelPermissions]
@@ -141,9 +141,9 @@ class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     name = 'order-list'
-    filter_fields = ['user']
-    search_fields = ['user']
-    ordering_fields = ['user']
+    filter_fields = ['client']
+    search_fields = ['client']
+    ordering_fields = ['client']
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [DjangoModelPermissions]
@@ -154,7 +154,7 @@ class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
-        return Response({'user': reverse(UserList.name, request=request),
+        return Response({'client': reverse(ClientList.name, request=request),
                          'supplier': reverse(SupplierList.name, request=request),
                          'brewery': reverse(BreweryList.name, request=request),
                          'type': reverse(TypeList.name, request=request),

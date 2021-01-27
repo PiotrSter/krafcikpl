@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import User, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
+from .models import Client, Supplier, Brewery, Type, Color, Capacity, Beer, Shop, Order
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ['login', 'email', 'password', 'address', 'phone_number']
+        model = Client
+        fields = ['name', 'surname', 'address', 'phone_number']
 
 class SupplierSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -71,5 +71,4 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['user', 'shop', 'supplier']
-
+        fields = ['client', 'shop', 'supplier']

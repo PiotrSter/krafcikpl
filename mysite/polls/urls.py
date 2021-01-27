@@ -1,13 +1,13 @@
 from django.urls import path, include
 from django.conf.urls import url
-from .views import UserList, UserDetail, SupplierList, SupplierDetail, BreweryList, BreweryDetail, TypeList, \
+from .views import ClientList, ClientDetail, SupplierList, SupplierDetail, BreweryList, BreweryDetail, TypeList, \
     TypeDetail, ColorList, ColorDetail, CapacityList, CapacityDetail, BeerList, BeerDetail, ShopList, ShopDetail, \
     OrderList, OrderDetail, ApiRoot
 
 urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
-    path('user', UserList.as_view(), name=UserList.name),
-    path('user/<int:pk>', UserDetail.as_view(), name=UserDetail.name),
+    path('client', ClientList.as_view(), name=ClientList.name),
+    path('client/<int:pk>', ClientDetail.as_view(), name=ClientDetail.name),
     path('supplier', SupplierList.as_view(), name=SupplierList.name),
     path('supplier/<int:pk>', SupplierDetail.as_view(), name=SupplierDetail.name),
     path('brewery', BreweryList.as_view(), name=BreweryList.name),

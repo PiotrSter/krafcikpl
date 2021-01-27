@@ -1,17 +1,16 @@
 from django.db import models
 
-class User(models.Model):
-    login = models.CharField(max_length=16)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=32)
+class Client(models.Model):
+    name = models.CharField(max_length=16)
+    surname = models.CharField(max_length=32)
     address = models.CharField(max_length=45)
     phone_number = models.IntegerField()
 
     class Meta:
-        ordering = ('login',)
+        ordering = ('name',)
 
     def __str__(self):
-        return self.login
+        return self.name+' '+self.surname
 
 
 class Supplier(models.Model):
@@ -93,10 +92,7 @@ class Shop(models.Model):
 
 
 class Order(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-
-
-
 
