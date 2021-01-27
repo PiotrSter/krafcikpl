@@ -54,7 +54,7 @@ class ShopSerializer(serializers.HyperlinkedModelSerializer):
         model = Shop
         fields = ['name', 'beer', 'price']
 
-#class OrderUserSerializer(serializers.HyperlinkedModelSerializer):
+#class OrderClientSerializer(serializers.HyperlinkedModelSerializer):
     #class Meta:
         #model = User
         #fileds = ['login']
@@ -65,7 +65,7 @@ class ShopSerializer(serializers.HyperlinkedModelSerializer):
         #fields = ['name']
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
-    #user = OrderUserSerializer(many=True, read_only=False)
+    #client = OrderClientSerializer(many=True, read_only=False)
     #shop = OrderShopSerializer(many=True, read_only=False)
     supplier = serializers.SlugRelatedField(queryset=Supplier.objects.all(), slug_field='name')
 
